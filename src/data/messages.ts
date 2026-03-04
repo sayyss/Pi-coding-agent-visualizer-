@@ -1,20 +1,38 @@
 import type { Message } from '../types';
 
 export const messages: Record<string, Message> = {
-  // Turn 1: User asks to read + add formatDate
+  // Turn 1: User asks to add formatDate (no explicit path — forces agent to discover)
   'msg-user-1': {
     id: 'msg-user-1',
     role: 'user',
     turnIndex: 1,
     tokens: 120,
-    content: 'Read src/utils.ts and add a formatDate helper function that formats dates using Intl.DateTimeFormat.',
+    content: 'Add a formatDate helper to the utils file.',
+  },
+  'msg-asst-1-find': {
+    id: 'msg-asst-1-find',
+    role: 'assistant',
+    turnIndex: 1,
+    tokens: 180,
+    content: "I need to find the utils file first. Let me search for it.",
+    toolCallIds: ['tc-find-utils-file'],
+    stopReason: 'tool_use',
+  },
+  'msg-tool-1-find': {
+    id: 'msg-tool-1-find',
+    role: 'tool_result',
+    turnIndex: 1,
+    tokens: 60,
+    toolCallId: 'tc-find-utils-file',
+    toolName: 'find',
+    content: 'src/utils.ts',
   },
   'msg-asst-1a': {
     id: 'msg-asst-1a',
     role: 'assistant',
     turnIndex: 1,
     tokens: 280,
-    content: "I'll read the file first to see the current contents.",
+    content: "Found src/utils.ts. Let me read it to see the current contents.",
     toolCallIds: ['tc-read-utils'],
     stopReason: 'tool_use',
   },
@@ -254,8 +272,8 @@ function formatDate(date: Date, locale?: string): string
     turnIndex: 0,
     tokens: 800,
     content: `Conversation summary (turns 1-8):
-- User requested adding a formatDate helper to src/utils.ts using Intl.DateTimeFormat
-- Read src/utils.ts, added formatDate function after truncate
+- User requested adding a formatDate helper to the utils file
+- Found src/utils.ts via find tool, read it, added formatDate function after truncate
 - Created src/utils.test.ts with tests for all 4 utility functions
 - All tests passing
 - Searched for formatDate usage, found components, updated Header.tsx to display formatted date

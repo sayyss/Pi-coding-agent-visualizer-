@@ -11,6 +11,14 @@ export const toolDefinitions: ToolDefinition[] = [
 ];
 
 export const toolCalls: Record<string, ToolCall> = {
+  'tc-find-utils-file': {
+    id: 'tc-find-utils-file',
+    toolName: 'find',
+    arguments: { pattern: 'utils*', path: 'src/' },
+    result: 'src/utils.ts',
+    execPhase: 'complete',
+    durationMs: 28,
+  },
   'tc-read-utils': {
     id: 'tc-read-utils',
     toolName: 'read',

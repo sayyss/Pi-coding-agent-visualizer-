@@ -59,4 +59,6 @@ export interface TimelineStep {
   isCompacting?: boolean;
   /** Post-compaction token count */
   postCompactionTokens?: number;
+  /** Educational annotation explaining the "why" behind this step */
+  annotation?: string;
 }
